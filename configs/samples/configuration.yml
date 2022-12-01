@@ -51,6 +51,7 @@ riotpot:
 # connection information. As the name indicates, `default` will be the default
 # database used to store logs, binary entries, etc.
 databases:
+  - identity:
     # Name of the targeted database
     name: '${DB_NAME}'
     # RiotPot only supports `postgres` currently.
