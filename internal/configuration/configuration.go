@@ -162,4 +162,6 @@ type ConfigDatabase struct {
 	Host string
 	// port to connect to the database
 	Port string
+	// name of database
+	Name string
 }

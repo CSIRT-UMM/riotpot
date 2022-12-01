@@ -51,17 +51,16 @@ riotpot:
 # connection information. As the name indicates, `default` will be the default
 # database used to store logs, binary entries, etc.
 databases:
-  - identity: 
     # Name of the targeted database
-    name: default
+    name: '${DB_NAME}'
     # RiotPot only supports `postgres` currently.
     engine: postgres
     # IP or container name in the same network.
-    host: localhost
+    host: '${DB_HOST}'
     # Connection port to the database host.
-    port: 5432
+    port: '${DB_PORT}'
     # User and password to access the database.
     # NOTE: Do not hard-code the values in this file. Please do make
     # use of `.env` file for this purpose in production.
-    username: superuser
-    password:
+    username: '${DB_USER}'
+    password: '${DB_PASS}'

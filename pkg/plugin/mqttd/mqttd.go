@@ -147,13 +147,21 @@ func (m *Mqtt) save(packet *Packet, conn net.Conn) {
 		strings.Join(packet.Topics, ","),
 	)
 
-	connection := &models.Connection{
-		LocalAddress:  "localhost",
-		RemoteAddress: conn.RemoteAddr().String(),
-		Payload:       data,
-		Protocol:      "TCP",
-		Service:       Name,
-		Incoming:      true,
-	}
+	// connection := &models.Connection{
+	// 	LocalAddress:  "localhost",
+	// 	RemoteAddress: conn.RemoteAddr().String(),
+	// 	Payload:       data,
+	// 	Protocol:      "TCP",
+	// 	Service:       Name,
+	// 	Incoming:      true,
+	// }
+	connection := models.NewConnection()
+	connection.LocalAddress = "localhost"
+	connection.RemoteAddress = conn.RemoteAddr().String()
+	connection.Protocol = "TCP"
+	connection.Service = Name
+	connection.Incoming = true
+	connection.Payload = data
+
 	m.Store(connection)
 }

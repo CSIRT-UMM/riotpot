@@ -7,11 +7,13 @@ DOCKER=build/docker/
 PLUGINS_DIR=pkg/plugin
 
 # docker cmd below
-.PHONY:  docker-build-doc riotpot-doc riotpot-up riotpot-prod-up riotpot-prod-down riotpot-build riotpot-build-plugins riotpot-builder
+.PHONY:
+	docker-build-doc riotpot-doc riotpot-up riotpot-prod-up riotpot-prod-down riotpot-build riotpot-build-plugins riotpot-builder
 docker-build-doc:
 	docker build -f $(DOCKER)Dockerfile.documentation . -t $(APPNAME)/v1
-riotpot-doc: docker-build-doc
-	docker run -p 6060:6060 -it $(APPNAME)/v1
+riotpot-doc:
+	docker-build-doc
+	docker run -p 6060:6060 -d $(APPNAME)/v1
 riotpot-up:
 	docker-compose -p riotpot -f ${DEPLOY}docker-compose.yml up -d --build
 riotpot-down:

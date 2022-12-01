@@ -6,7 +6,7 @@ ENV APP_NAME=riotpot
 ENV WORKING_DIR=$GOPATH/src/github.com/aau/$APP_NAME
 
 # get godoc
-RUN go get golang.org/x/tools/cmd/godoc
+RUN go install golang.org/x/tools/cmd/godoc@latest
 
 # Set the working directory to golang working space
 WORKDIR $WORKING_DIR
