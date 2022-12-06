@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io"
 	"net"
+	"strings"
 
 	"github.com/riotpot/pkg/models"
 	"github.com/riotpot/pkg/services"
@@ -195,14 +196,16 @@ func (m *Modbus) handleSession(conn net.Conn) {
 // We will send adequate responses for each of them, however, we will store
 // any information comming to the honeypot in the process.
 // Modbus works with six different functions with their own individual code:
-// 	1: read coils
-// 	2: read discrete inputs
-// 	3: read holding registers
-// 	4: read input registers
-// 	5: force/write single coil
-// 	6: preset/write single holding register
-// 	15: miltiple 5
-// 	16: multiple 6
+//
+//	1: read coils
+//	2: read discrete inputs
+//	3: read holding registers
+//	4: read input registers
+//	5: force/write single coil
+//	6: preset/write single holding register
+//	15: miltiple 5
+//	16: multiple 6
+//
 // Generarly, we will either read a quantity of an unsigned int 16, or write
 // booleans (0 or 1) plus the address.
 func handler() modbusone.ProtocolHandler {
@@ -283,7 +286,7 @@ func readTCP(r io.Reader, bs []byte) (n int, err error) {
 	return n + modbusone.TCPHeaderLength, err
 }
 
-//writeTCP writes a PDU packet on TCP reusing the headers and buffer space in bs
+// writeTCP writes a PDU packet on TCP reusing the headers and buffer space in bs
 func writeTCP(w io.Writer, bs []byte, pdu modbusone.PDU) (int, error) {
 	l := len(pdu) + 1 //pdu + byte of slaveID
 	bs[4] = byte(l / 256)
@@ -294,8 +297,10 @@ func writeTCP(w io.Writer, bs []byte, pdu modbusone.PDU) (int, error) {
 
 func (m *Modbus) save(conn net.Conn, payload []byte) {
 	connection := models.NewConnection()
-	connection.LocalAddress = conn.LocalAddr().String()
-	connection.RemoteAddress = conn.RemoteAddr().String()
+	connection.LocalAddress = strings.Split(conn.LocalAddr().String(), ":")[0]
+	connection.LocalPort = strings.Split(conn.LocalAddr().String(), ":")[1]
+	connection.RemoteAddress = strings.Split(conn.RemoteAddr().String(), ":")[0]
+	connection.RemotePort = strings.Split(conn.RemoteAddr().String(), ":")[1]
 	connection.Protocol = "TCP"
 	connection.Service = Name
 	connection.Incoming = true

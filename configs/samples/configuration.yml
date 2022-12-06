@@ -6,7 +6,7 @@ type: template
 # documentation for internal structure when in doubt on usage.
 
 # 50 characters minimum long RANDOM string used to generate cryptographic signatures.
-secret: 
+secret: '${KEY}'
 
 riotpot:
   # If this boolean is set to a falsy value then `start` must be filled with the
@@ -23,7 +23,7 @@ riotpot:
   # `start` contains a list of services desired to be run
   # on-start. For all the services, set `autod` to `true`.
   start:
-    - httpd
+    # - httpd
     - echod
     - telnetd
     - mqttd
@@ -39,9 +39,9 @@ riotpot:
   #
   # Add here the emulator plugins you have included on the binary.
   emulators:
-    - httpd
+    # - httpd
     - echod
-    - sshd
+    # - sshd
     - telnetd
     - mqttd
     - coapd

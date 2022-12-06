@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"net"
+	"strings"
 
 	"github.com/riotpot/pkg/models"
 	"github.com/riotpot/pkg/services"
@@ -125,8 +126,10 @@ func (e *Echo) handleConn(conn net.Conn) {
 func (e *Echo) save(conn net.Conn, payload []byte) {
 
 	connection := models.NewConnection()
-	connection.LocalAddress = conn.LocalAddr().String()
-	connection.RemoteAddress = conn.RemoteAddr().String()
+	connection.LocalAddress = strings.Split(conn.LocalAddr().String(), ":")[0]
+	connection.LocalPort = strings.Split(conn.LocalAddr().String(), ":")[1]
+	connection.RemoteAddress = strings.Split(conn.RemoteAddr().String(), ":")[0]
+	connection.RemotePort = strings.Split(conn.RemoteAddr().String(), ":")[1]
 	connection.Protocol = "TCP"
 	connection.Service = Name
 	connection.Incoming = true
