@@ -27,10 +27,10 @@ COPY . .
 # and build the project
 # -- Comment this line when on development if you know you have a ready to go version built --
 # Disclaimer: if you comment this line, be 100% sure that the binary can be run on linux
-RUN make riotpot-builder
+RUN make riotpot-build-all
 
 # give permissions to the entrypoint to run the file
-RUN chmod +x build/docker/entrypoint.sh
+RUN chmod +x build/entrypoint.sh
 
 # Run RIoTPot
-ENTRYPOINT [ "./build/docker/entrypoint.sh" ]
+ENTRYPOINT [ "./build/entrypoint.sh" ]

@@ -35,7 +35,7 @@ This services are loaded in the honeypot in the form of plugins, making RIoTPot 
 
 RIoTPot has a modular architecture that facilitates extensability of the honeypot. The honeypot further offers a hybrid-interaction capability where users can choosed the desired interaction levels for the protocols simulated. The image below shows the high/level architecture of RIoTPot. 
 
-![alt text](architecture.jpg "Architecture")
+![alt text](assets/architecture.jpg "Architecture")
 
 The architecture contains 6 components. 
 

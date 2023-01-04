@@ -17,7 +17,7 @@ import (
 
 func NewSettings() (s Settings, err error) {
 	s = Settings{}
-	err = s.Load("configs/samples/configuration.yml")
+	err = s.Load("configs/configuration.yml")
 	s.ResolveEnv()
 	return
 }

@@ -6,7 +6,7 @@ type: template
 # documentation for internal structure when in doubt on usage.
 
 # 50 characters minimum long RANDOM string used to generate cryptographic signatures.
-secret: '${KEY}'
+secret: '${SECRET}'
 
 riotpot:
   # If this boolean is set to a falsy value then `start` must be filled with the
@@ -23,8 +23,9 @@ riotpot:
   # `start` contains a list of services desired to be run
   # on-start. For all the services, set `autod` to `true`.
   start:
-    # - httpd
+    - httpd
     - echod
+    - sshd
     - telnetd
     - mqttd
     - coapd
@@ -39,9 +40,9 @@ riotpot:
   #
   # Add here the emulator plugins you have included on the binary.
   emulators:
-    # - httpd
+    - httpd
     - echod
-    # - sshd
+    - sshd
     - telnetd
     - mqttd
     - coapd
@@ -55,7 +56,7 @@ databases:
     # Name of the targeted database
     name: '${DB_NAME}'
     # RiotPot only supports `postgres` currently.
-    engine: postgres
+    engine: '${DB_ENGINE}'
     # IP or container name in the same network.
     host: '${DB_HOST}'
     # Connection port to the database host.

@@ -17,7 +17,7 @@ import (
 
 func NewProfile() (p Profile, err error) {
 	p = Profile{}
-	err = p.Load("configs/samples/profile.yml")
+	err = p.Load("configs/profile.yml")
 	return
 }
 
