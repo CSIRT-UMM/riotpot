@@ -19,6 +19,7 @@ import (
 	"github.com/plgd-dev/go-coap/v2/message"
 	"github.com/plgd-dev/go-coap/v2/message/codes"
 	"github.com/plgd-dev/go-coap/v2/mux"
+	"github.com/riotpot/pkg/models"
 	"github.com/riotpot/pkg/profiles"
 	"github.com/riotpot/pkg/services"
 )
@@ -171,9 +172,10 @@ func (c *Coap) observeHandler(w mux.ResponseWriter, req *mux.Message) {
 // CoAP provides a specific path that returns the list of resources
 // normally available at `.well-known/core`, however, it can be at other paths
 // depending on the API implementation.
-//	 - https://tools.ietf.org/html/draft-ietf-core-coap-pubsub-09#section-4.1
 //
-// 		Example req: GET /ps/?rt="temperature"
+//   - https://tools.ietf.org/html/draft-ietf-core-coap-pubsub-09#section-4.1
+//
+//     Example req: GET /ps/?rt="temperature"
 //
 // The discovery is meant to localize available topics, however, this is not
 // a requirement of the protocol, the server MAY register the topics there. This method
@@ -356,6 +358,17 @@ func (c *Coap) periodicTransmitter(cc mux.Client, token []byte, topic profiles.T
 func (c *Coap) save(w mux.ResponseWriter, r *mux.Message) {
 	// rmtAddr := w.Client().RemoteAddr()
 	// path :=
+	connection := models.NewConnection()
+	connection.LocalAddress = "localhost"
+	connection.LocalPort = "5683"
+	connection.RemoteAddress = strings.Split(w.Client().RemoteAddr().String(), ":")[0]
+	connection.RemotePort = strings.Split(w.Client().RemoteAddr().String(), ":")[1]
+	connection.Protocol = w.Client().RemoteAddr().Network()
+	connection.Service = Name
+	connection.Incoming = true
+	connection.Payload = r.Token.String()
+
+	c.Store(connection)
 }
 
 // Filter a list of topics based on the query string included and the flag

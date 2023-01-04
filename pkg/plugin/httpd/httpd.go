@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"strings"
 
 	"github.com/riotpot/pkg/models"
 	"github.com/riotpot/pkg/services"
@@ -147,10 +148,12 @@ func (h *Http) loadHandler(path string, valid bool) {
 
 func (h *Http) save(req *http.Request) {
 	connection := models.NewConnection()
-	connection.LocalAddress = "localhost"
-	connection.RemoteAddress = req.RemoteAddr
+	connection.LocalAddress = req.Host
+	connection.LocalPort = "8080"
+	connection.RemoteAddress = strings.Split(req.RemoteAddr, ":")[0]
+	connection.RemotePort = strings.Split(req.RemoteAddr, ":")[1]
 	connection.Protocol = "TCP"
-	connection.Service = "HTTP"
+	connection.Service = Name
 	connection.Incoming = true
 	connection.Payload = req.PostForm.Encode()
 

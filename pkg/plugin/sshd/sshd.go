@@ -5,6 +5,7 @@ import (
 	"io"
 	"io/ioutil"
 	"net"
+	"strings"
 	"sync"
 
 	"github.com/riotpot/pkg/fake/shell"
@@ -259,7 +260,9 @@ type SSHConn struct {
 	ClientVersion []byte
 	ServerVersion []byte
 	RemoteAddr    string
+	RemotePort    string
 	LocalAddr     string
+	LocalPort     string
 	Msg           string
 
 	// Request only
@@ -278,8 +281,10 @@ func NewSshConn(conn *ssh.ServerConn) SSHConn {
 		SessionID:     conn.SessionID(),
 		ClientVersion: conn.ClientVersion(),
 		ServerVersion: conn.ServerVersion(),
-		RemoteAddr:    conn.RemoteAddr().String(),
-		LocalAddr:     conn.LocalAddr().String(),
+		RemoteAddr:    strings.Split(conn.RemoteAddr().String(), ":")[0],
+		RemotePort:    strings.Split(conn.RemoteAddr().String(), ":")[1],
+		LocalAddr:     strings.Split(conn.LocalAddr().String(), ":")[0],
+		LocalPort:     strings.Split(conn.LocalAddr().String(), ":")[1],
 		Msg:           "",
 		RequestType:   "",
 		Payload:       []byte{},
