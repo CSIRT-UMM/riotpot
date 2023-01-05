@@ -7,6 +7,7 @@ import (
 	"net"
 	"strings"
 	"sync"
+	"time"
 
 	"github.com/riotpot/pkg/fake/shell"
 	"github.com/riotpot/pkg/services"
@@ -264,6 +265,7 @@ type SSHConn struct {
 	LocalAddr     string
 	LocalPort     string
 	Msg           string
+	Timestamp     time.Time
 
 	// Request only
 	RequestType string
@@ -282,11 +284,12 @@ func NewSshConn(conn *ssh.ServerConn) SSHConn {
 		ClientVersion: conn.ClientVersion(),
 		ServerVersion: conn.ServerVersion(),
 		RemoteAddr:    strings.Split(conn.RemoteAddr().String(), ":")[0],
-		// RemotePort:    strings.Split(conn.RemoteAddr().String(), ":")[1],
-		LocalAddr: strings.Split(conn.LocalAddr().String(), ":")[0],
-		// LocalPort:     strings.Split(conn.LocalAddr().String(), ":")[1],
-		Msg:         "",
-		RequestType: "",
-		Payload:     []byte{},
+		RemotePort:    strings.Split(conn.RemoteAddr().String(), ":")[1],
+		LocalAddr:     strings.Split(conn.LocalAddr().String(), ":")[0],
+		LocalPort:     strings.Split(conn.LocalAddr().String(), ":")[1],
+		Timestamp:     time.Now(),
+		Msg:           "",
+		RequestType:   "",
+		Payload:       []byte{},
 	}
 }
