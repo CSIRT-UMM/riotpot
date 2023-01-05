@@ -282,11 +282,11 @@ func NewSshConn(conn *ssh.ServerConn) SSHConn {
 		ClientVersion: conn.ClientVersion(),
 		ServerVersion: conn.ServerVersion(),
 		RemoteAddr:    strings.Split(conn.RemoteAddr().String(), ":")[0],
-		RemotePort:    strings.Split(conn.RemoteAddr().String(), ":")[1],
-		LocalAddr:     strings.Split(conn.LocalAddr().String(), ":")[0],
-		LocalPort:     strings.Split(conn.LocalAddr().String(), ":")[1],
-		Msg:           "",
-		RequestType:   "",
-		Payload:       []byte{},
+		// RemotePort:    strings.Split(conn.RemoteAddr().String(), ":")[1],
+		LocalAddr: strings.Split(conn.LocalAddr().String(), ":")[0],
+		// LocalPort:     strings.Split(conn.LocalAddr().String(), ":")[1],
+		Msg:         "",
+		RequestType: "",
+		Payload:     []byte{},
 	}
 }

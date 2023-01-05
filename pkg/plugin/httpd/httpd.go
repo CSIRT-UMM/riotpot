@@ -148,8 +148,8 @@ func (h *Http) loadHandler(path string, valid bool) {
 
 func (h *Http) save(req *http.Request) {
 	connection := models.NewConnection()
-	connection.LocalAddress = req.Host
-	connection.LocalPort = "8080"
+	connection.LocalAddress = strings.Split(req.Host, ":")[0]
+	connection.LocalPort = strings.Split(req.Host, ":")[1]
 	connection.RemoteAddress = strings.Split(req.RemoteAddr, ":")[0]
 	connection.RemotePort = strings.Split(req.RemoteAddr, ":")[1]
 	connection.Protocol = "TCP"
